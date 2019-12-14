@@ -1,7 +1,8 @@
 # Project_ES_2019
 
 Pre-conditions:
-  Sniper installed -> follow the HowTo
+  Sniper installed -> follow the steps in HowTo_install_sniper.txt
+  Project requirements -> Project_ES_2019.pdf
 
 Setting up the project:
   1. Create a new folder in Home called bin
