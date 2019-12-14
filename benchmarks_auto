@@ -1,0 +1,74 @@
+#! /bin/bash
+
+# generate benchmarks and .cvs reports
+## 1st argument is the benchmark option -b
+## 2nd argument is the benchmark value (e.g. fft, barnes)
+## 1st argument is the number of cores option -n
+## 2nd argument is the number of cores value (e.g. int)
+
+# getting the options as arguments
+while getopts b:n: option
+do 
+   case "${option}"
+   in 
+      b) benchmark=${OPTARG};;
+      n) cores=${OPTARG};;
+esac
+done
+
+# print what benchmark we will run
+echo ==================================================
+echo ==================================================
+echo ====== Start first benchmark on $benchmark, $((cores)) core ======
+echo ==================================================
+echo ==================================================
+echo
+
+# go to the right benchmark folder
+cd
+cd sniper/benchmarks
+# execute the benchmark command with the correct number of cores
+./run-sniper -p splash2-$benchmark -i test -n $((cores)) -c gainestown -d results/$benchmark/$cores
+
+# print what we will do next
+echo
+echo ==================================================
+echo ==================================================
+echo ====== Start reading from file ===================
+echo ==================================================
+echo ==================================================
+echo
+# get the generated report file
+input="/home/rhadu/sniper/benchmarks/results/"$benchmark"/"$((cores))"/sim.out" 
+# go thru the content of the file line by line
+while IFS= read -r line
+do
+  # print new line from file
+  echo "$line"
+  # check if we are the line with the Instructions
+  if [[ "$line" == *"Instructions"* ]]; then
+     # once the line is found
+     # the instruction actual number is located as the 3rd element in string. Store it in a variable
+     array=($line)
+     nr_of_instructions_per_core=${array[2]}
+     # the total number of instruction is given by the number of cores * number of instructions per core
+     nr_of_instructions=$((nr_of_instructions_per_core*$((cores))))
+  fi
+done < "$input" # done with the while
+
+echo
+echo ====================== Done going thru file ==================
+echo "Number of instructions found: "$nr_of_instructions
+ 
+# move back to the bin folder
+cd
+cd bin
+# create the csv file
+# ToDo: Populate the csv
+
+csv_name=$benchmark"_"$((cores)) # the file will be names using the name of the benchmark and the number of cores
+echo "Instructions,$nr_of_instructions" >> $csv_name.csv
+echo "IPC, $nr_of_instructions" >> $csv_name.csv
+echo "Power, $nr_of_instructions" >> $csv_name.csv
+
+
