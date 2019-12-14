@@ -1,0 +1,47 @@
+http://snipersim.org/download/e1bab4d7197a6209/git/s.git
+
+Ubuntu Sniper Installation
+
+1. Install: g++ libboost-dev libc6-dev-i386 lib32z1-dev libsqlite3-dev git libbz2-dev m4 xsltproc libx11-dev libxext-dev libxt-dev libxmu-dev libxi-dev gfortran
+
+2. Clone: http://snipersim.org/download/e1bab4d7197a6209/git/s.git
+
+3. Download the latest Pin kit from the Intel Pin downloads page
+
+	Extract Pin into sniper/pin_kit (do not extract it to pin, create a new folder called pin_kit!!!!)	
+
+4. Build sniper
+
+5. go to test/fft
+
+6. Run
+
+7. After this (do not leave the current folder, install gnuplot only on first use)
+
+install: gnuplot
+
+../../tools/cpistack.py
+
+
+
+Benchmarks installation:
+
+Go back to sniper root folder:
+
+1. Download: http://snipersim.org/packages/sniper-benchmarks.tbz
+
+2. Extract sniper-benchmarks.tbz
+
+3. echo "export GRAPHITE_ROOT=$(pwd)" >> ~/.bashrc
+
+4. navigate to "benchmarks"
+
+5. echo "export BENCHMARKS_ROOT=$(pwd)" >> ~/.bashrc
+
+6. Modify makefile to build and clean until splash2 
+7. build
+
+9. ./run-sniper -p splash2-barnes -i test -n 1 -c gainestown -d results/barnes/1
+10. Edit run-sniper deleting the 2 ifs where the exception above is printed
+11. ./run-sniper -p splash2-barnes -i test -n 1 -c gainestown -d results/barnes/1
+
